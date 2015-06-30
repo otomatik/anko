@@ -1,5 +1,6 @@
 configurations {
     robolectric
+    androidall
     gson
     jmustache
     jeromq
@@ -14,6 +15,8 @@ dependencies {
 
     robolectric "org.robolectric:shadows-core:${ROBOLECTRIC_VERSION}"
     robolectric "org.robolectric:shadows-support-v4:${ROBOLECTRIC_VERSION}"
+
+    androidall 'org.robolectric:android-all:5.0.0_r2-robolectric-1'
 
     gson 'com.google.code.gson:gson:2.3.1'
     jmustache 'com.samskivert:jmustache:1.10'
