@@ -16,6 +16,7 @@
 
 package org.jetbrains.kotlin.android.robowrapper
 
+import android.os.Build
 import android.view.View
 import org.jetbrains.kotlin.android.dslpreview.Pack
 import org.junit.Before
@@ -34,6 +35,7 @@ import java.nio.charset.Charset
 import kotlin.properties.Delegates
 
 RunWith(RobolectricTestRunner::class)
+Config(sdk = intArrayOf(Build.VERSION_CODES.LOLLIPOP))
 public class ParserTest {
 
     private var myActivityClass: String by Delegates.notNull()
