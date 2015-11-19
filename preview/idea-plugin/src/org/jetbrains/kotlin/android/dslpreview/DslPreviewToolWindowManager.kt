@@ -27,7 +27,6 @@ import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.compiler.CompileContext
 import com.intellij.openapi.compiler.CompileStatusNotification
 import com.intellij.openapi.compiler.CompilerManager
-import com.intellij.openapi.editor.ex.EditorEx
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.module.Module
@@ -58,16 +57,18 @@ import org.jetbrains.kotlin.idea.util.InfinitePeriodicalTask
 import org.jetbrains.kotlin.idea.util.LongRunningReadTask
 import org.jetbrains.kotlin.idea.util.ProjectRootsUtil
 import org.jetbrains.kotlin.psi.KtClass
-import org.jetbrains.kotlin.psi.KtFile
 import javax.swing.DefaultComboBoxModel
 import javax.swing.JPanel
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.editor.ex.EditorEx
+import org.jetbrains.kotlin.psi.KtFile
 
 class DslPreviewToolWindowManager(
         private val myProject: Project,
         fileEditorManager: FileEditorManager
 ) : AndroidLayoutPreviewToolWindowManager(myProject, fileEditorManager), DslWorker.Listener, Disposable {
 
+    private var myDslWorker: DslWorker? = null
     private var myActivityListModel: DefaultComboBoxModel? = null
 
     private var myLastFile: PsiFile? = null
@@ -378,7 +379,7 @@ class DslPreviewToolWindowManager(
                 return null
             }
 
-            val file = location.jetFile
+            val file = location.kFile
             if (file == null || !ProjectRootsUtil.isInProjectSource(file)) {
                 return null
             }
@@ -395,7 +396,7 @@ class DslPreviewToolWindowManager(
 
         override fun cloneRequestInfo(requestInfo: Pair<KtClass, String>): Pair<KtClass, String> {
             val newRequestInfo = super.cloneRequestInfo(requestInfo)
-            assert(requestInfo == newRequestInfo, "cloneRequestInfo should generate same location object")
+            assert(requestInfo == newRequestInfo) { "cloneRequestInfo should generate same location object" }
             return newRequestInfo
         }
 
@@ -407,17 +408,25 @@ class DslPreviewToolWindowManager(
             return getQualifiedName(requestInfo.first)
         }
 
-        private fun indexOf(model: DefaultComboBoxModel, description: PreviewClassDescription): Int? {
-            for (i in 0..(model.size - 1)) {
-                val item = model.getElementAt(i) as? PreviewClassDescription ?: continue
-                if (item == description) return i
+        override fun onResultReady(requestInfo: Pair<KtClass, String>, resultText: String?) {
+            if (resultText == null) {
+                return
             }
 
-        private fun setSelection(model: DefaultComboBoxModel, description: PreviewClassDescription): Boolean {
-            val index = indexOf(model, description) ?: return false
-            model.selectedItem = model.getElementAt(index)
-            return true
-        }
+            fun setSelection(): Boolean {
+                var found = false
+                if (myActivityListModel != null) with (myActivityListModel!!) {
+                    for (i in 0 .. (size - 1)) {
+                        val item = getElementAt(i)
+                        if (item != null && resultText == (item as PreviewClassDescription).qualifiedName) {
+                            selectedItem = item
+                            found = true
+                            break
+                        }
+                    }
+                }
+                return found
+            }
 
             // If class with such name was not found (prob. after refactoring)
             if (!setSelection()) {

@@ -46,7 +46,7 @@ class PreviewPsiClassDescription(val psiClass: PsiClass, androidFacet: AndroidFa
 }
 
 class PreviewKtClassDescription(val ktClass: KtClass, androidFacet: AndroidFacet): PreviewClassDescription(androidFacet) {
-    override val packageName: String = ktClass.getContainingJetFile().packageFqName.asString()
+    override val packageName: String = ktClass.getContainingKtFile().packageFqName.asString()
     override val name: String = ktClass.name!!
     override val qualifiedName: String = "$packageName.$name"
 

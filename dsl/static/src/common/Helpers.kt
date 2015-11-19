@@ -59,7 +59,7 @@ enum class Orientation {
 
 inline fun <T: Any> Context.configuration(
         screenSize: ScreenSize? = null,
-        density: Range<Int>? = null,
+        density: ClosedRange<Int>? = null,
         language: String? = null,
         orientation: Orientation? = null,
         long: Boolean? = null,
@@ -75,7 +75,7 @@ inline fun <T: Any> Context.configuration(
 
 inline fun <T: Any> Activity.configuration(
         screenSize: ScreenSize? = null,
-        density: Range<Int>? = null,
+        density: ClosedRange<Int>? = null,
         language: String? = null,
         orientation: Orientation? = null,
         long: Boolean? = null,
@@ -91,7 +91,7 @@ inline fun <T: Any> Activity.configuration(
 
 inline fun <T: Any> UiHelper.configuration(
         screenSize: ScreenSize? = null,
-        density: Range<Int>? = null,
+        density: ClosedRange<Int>? = null,
         language: String? = null,
         orientation: Orientation? = null,
         long: Boolean? = null,
@@ -107,7 +107,7 @@ inline fun <T: Any> UiHelper.configuration(
 
 inline fun <T: Any> Fragment.configuration(
         screenSize: ScreenSize? = null,
-        density: Range<Int>? = null,
+        density: ClosedRange<Int>? = null,
         language: String? = null,
         orientation: Orientation? = null,
         long: Boolean? = null,

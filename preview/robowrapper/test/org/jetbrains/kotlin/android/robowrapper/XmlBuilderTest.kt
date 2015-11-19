@@ -34,7 +34,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.Button
 import java.io.ByteArrayInputStream
-import kotlin.dom.parseXml
+import kotlinx.dom.parseXml
 import org.w3c.dom.Element
 
 @Config(manifest = Config.NONE)

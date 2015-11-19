@@ -19,7 +19,7 @@ package org.jetbrains.kotlin.android.dslpreview
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.asJava.KotlinLightElement
+import org.jetbrains.kotlin.asJava.KtLightElement
 import org.jetbrains.kotlin.descriptors.ClassDescriptor
 import org.jetbrains.kotlin.descriptors.ClassifierDescriptor
 import org.jetbrains.kotlin.idea.caches.resolve.KotlinCacheService
@@ -91,7 +91,7 @@ internal fun resolveKtClass(prob: PsiElement, cacheService: KotlinCacheService):
         return false
     }
 
-    if (prob is KotlinLightElement<*, *>) {
+    if (prob is KtLightElement<*, *>) {
         return resolveKtClass(prob.getOrigin(), cacheService)
     }
 

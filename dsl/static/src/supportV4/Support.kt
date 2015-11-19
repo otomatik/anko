@@ -37,7 +37,7 @@ fun Fragment.UI(init: UiHelper.() -> Unit): UiHelper = activity.UI(false, init)
 
 inline fun <T: Any> Fragment.configuration(
         screenSize: ScreenSize? = null,
-        density: Range<Int>? = null,
+        density: ClosedRange<Int>? = null,
         language: String? = null,
         orientation: Orientation? = null,
         long: Boolean? = null,
