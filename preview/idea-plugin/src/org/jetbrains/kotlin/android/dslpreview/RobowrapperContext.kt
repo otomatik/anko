@@ -88,7 +88,7 @@ class RobowrapperContext(description: PreviewClassDescription) {
         val robolectricMavenDependencies = RobowrapperDependencies.DEPENDENCIES.map { it.file.absolutePath }.joinToString(":")
 
         val robowrapperDependencies = listOf(
-            "gson-2.3.jar",
+            "gson-2.3.1.jar",
             "jeromq-0.3.4.jar")
             .map { File(pluginDirectory, it).absolutePath }.joinToString(":", prefix = ":")
 
